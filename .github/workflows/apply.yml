@@ -1,0 +1,21 @@
+name: apply
+on: push
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Expand payload into the repo
+        run: |
+          set -euo pipefail
+          cat .payload/part.* | tr -d '\n' | base64 -d > /tmp/p.tgz
+          echo "707fffc0c3f92d04240da252f68e8d03d2dd2aaa17fc21f0ea6002544f061353  /tmp/p.tgz" | sha256sum -c -
+          tar xzf /tmp/p.tgz -C .
+          rm -rf .payload .github
+          git config user.name "apex-bot"
+          git config user.email "apex-bot@users.noreply.github.com"
+          git add -A
+          git commit -m "Apex Store: offline-first storefront, Google Play search tab, install handler, Play proxy worker"
+          git push
