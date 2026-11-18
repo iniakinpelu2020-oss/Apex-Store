@@ -2,7 +2,7 @@
    Everything here runs in the tab; the only network use is the opt-in Play proxy. */
 'use strict';
 
-/* ---------- the 22 apps ---------- */
+/* ---------- the 23 apps ---------- */
 
 const APPS = [
   { id: 'ai',         name: 'Apex AI',        cat: 'AI',           path: '/apps/ai/',         status: 'ready',   offline: false,
@@ -29,6 +29,8 @@ const APPS = [
     desc: 'Bookmarks and short links you host yourself.' },
   { id: 'gallery',    name: 'Apex Gallery',   cat: 'Media',        path: '/apps/gallery/',    status: 'planned', offline: false,
     desc: 'Photo library layered on the drive, not a second copy of it.' },
+  { id: 'camera',     name: 'Apex Camera',    cat: 'Media',        path: '/apps/camera/',     status: 'ready',   offline: true,
+    desc: 'Photo and video capture that saves straight into Apex Gallery.' },
   { id: 'feed',       name: 'Apex Feed',      cat: 'Media',        path: '/apps/feed/',       status: 'planned', offline: true,
     desc: 'Reader for the handful of feeds you actually read.' },
   { id: 'studio',     name: 'Apex Studio',    cat: 'Media',        path: '/apps/studio/',     status: 'planned', offline: false,
