@@ -17,7 +17,7 @@ const APPS = [
     desc: 'Big-file handoff that stays inside one free tier.' },
   { id: 'auth',       name: 'Apex Auth',      cat: 'Security',     path: '/apps/auth/',       status: 'planned', offline: false,
     desc: 'Device sign-in and rotating tokens instead of pasted keys.' },
-  { id: 'vault',      name: 'Apex Vault',     cat: 'Security',     path: '/apps/vault/',      status: 'planned', offline: true,
+  { id: 'vault',      name: 'Apex Vault',     cat: 'Security',     path: '/apps/vault/',      status: 'ready',   offline: true,
     desc: 'Local-first secrets that never depend on a cloud account.' },
   { id: 'shield',     name: 'Apex Shield',    cat: 'Security',     path: '/apps/shield/',     status: 'ready',   offline: true,
     desc: 'File triage and APK static analysis, entirely in the tab.' },
