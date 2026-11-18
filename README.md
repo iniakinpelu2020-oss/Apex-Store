@@ -23,10 +23,11 @@ worker/         Cloudflare Worker that turns Play search HTML into JSON
 (`Ready` / `Preview` / `In progress`) and whether the app keeps working offline. Each
 card has **Open** (the app's real launch path, `/apps/x/`) and **Add to Home Screen**.
 
-Fourteen of the 25 are `Ready` today — Apex AI, Apex Sec, Apex Shield, Apex Camera, Apex
+Fifteen of the 25 are `Ready` today — Apex AI, Apex Sec, Apex Shield, Apex Camera, Apex
 Voice, Apex Video, Apex Pulse, Apex Vault, Apex Gallery, Apex Feed, Apex Notes, Apex Archive,
-Apex Planner and Apex Ledger — which with this store makes fifteen pages you can open today;
-two are `Preview` (Automation, Drive). The other nine are still marked `In progress`, and
+Apex Planner, Apex Ledger and Apex Links — which with this store makes sixteen pages you can
+open today; two are `Preview` (Automation, Drive). The other eight are still marked
+`In progress`, and
 their cards show **Not shipped yet** instead of linking to a path that would 404. The badges
 say so; the store does not pretend otherwise.
 
