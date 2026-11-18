@@ -1,6 +1,6 @@
 # Apex Store
 
-The storefront for the suite: one page that lists all 23 Apex Ecosystem apps and, in a
+The storefront for the suite: one page that lists all 25 Apex Ecosystem apps and, in a
 second tab, searches Google Play through a Worker you own.
 
 It is a static PWA with no build step and no dependencies. Every path is relative
@@ -10,7 +10,7 @@ mounted by ApexOS at `/apps/store/`.
 ```
 index.html      two tabs, search, install sheet
 styles.css      dark glass theme
-store.js        the 23-app catalog, filtering, install + home-screen handling
+store.js        the 25-app catalog, filtering, install + home-screen handling
 play.js         Google Play tab: proxy calls, IndexedDB cache, market:// installs
 sw.js           offline shell (relative URLs, scoped to the store's own folder)
 manifest.json   standalone display, relative start_url and scope
@@ -19,14 +19,14 @@ worker/         Cloudflare Worker that turns Play search HTML into JSON
 
 ## The two tabs
 
-**Apex Apps.** All 23 apps with category, description and two badges: shipping status
+**Apex Apps.** All 25 apps with category, description and two badges: shipping status
 (`Ready` / `Preview` / `In progress`) and whether the app keeps working offline. Each
 card has **Open** (the app's real launch path, `/apps/x/`) and **Add to Home Screen**.
 
-Only five apps are `Ready` today — Apex AI, Apex Sec, Apex Shield, Apex Camera and this store — two are
-`Preview` (Automation, Drive) and the remaining sixteen are still READMEs. The badges say
-so; the store does not pretend otherwise. Cards for unshipped apps have **Open**
-disabled rather than linking to a 404.
+Only seven apps are `Ready` today — Apex AI, Apex Sec, Apex Shield, Apex Camera, Apex Voice, Apex
+Video and this store — two are `Preview` (Automation, Drive) and the remaining sixteen are still
+READMEs. The badges say so; the store does not pretend otherwise. Cards for unshipped apps have
+**Open** disabled rather than linking to a 404.
 
 **Google Play.** A search box and category chips that query your Worker. Because Play has
 no CORS-friendly API, nothing is fetched from the browser directly.
