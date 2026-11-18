@@ -157,7 +157,14 @@
     install.textContent = 'Install';
     install.addEventListener('click', () => S.installFromPlay(item.packageId, item.title));
 
-    node.append(img, main, install);
+    const pin = document.createElement('button');
+    pin.className = 'btn';
+    pin.type = 'button';
+    pin.textContent = 'Pin to ApexOS';
+    pin.title = 'Keep a Play Store shortcut on the ApexOS screen';
+    pin.addEventListener('click', () => S.pinPlayApp(item));
+
+    node.append(img, main, install, pin);
     return node;
   }
 
