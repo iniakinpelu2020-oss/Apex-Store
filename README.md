@@ -23,10 +23,10 @@ worker/         Cloudflare Worker that turns Play search HTML into JSON
 (`Ready` / `Preview` / `In progress`) and whether the app keeps working offline. Each
 card has **Open** (the app's real launch path, `/apps/x/`) and **Add to Home Screen**.
 
-Only seven apps are `Ready` today — Apex AI, Apex Sec, Apex Shield, Apex Camera, Apex Voice, Apex
-Video and this store — two are `Preview` (Automation, Drive) and the remaining sixteen are still
-READMEs. The badges say so; the store does not pretend otherwise. Cards for unshipped apps have
-**Open** disabled rather than linking to a 404.
+Seven of the 25 are `Ready` today — Apex AI, Apex Sec, Apex Shield, Apex Camera, Apex Voice, Apex
+Video and Apex Pulse — and this store is the eighth; two are `Preview` (Automation, Drive). The
+rest are still marked `In progress`, and their cards show **Not shipped yet** instead of linking
+to a path that would 404. The badges say so; the store does not pretend otherwise.
 
 **Google Play.** A search box and category chips that query your Worker. Because Play has
 no CORS-friendly API, nothing is fetched from the browser directly.
