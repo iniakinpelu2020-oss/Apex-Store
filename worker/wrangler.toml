@@ -1,0 +1,11 @@
+name = "apex-play-proxy"
+main = "play-proxy.js"
+compatibility_date = "2026-11-01"
+
+# Free plan, no card: the workers.dev URL is enough for the store.
+workers_dev = true
+
+# Optional custom route once you own a domain:
+# routes = [
+#   { pattern = "store.example.com/play/*", zone_name = "example.com" }
+# ]

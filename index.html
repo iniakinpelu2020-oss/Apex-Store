@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Apex Store</title>
+<meta name="description" content="Offline-first storefront for the 22 Apex Ecosystem apps, with a self-hosted Google Play search proxy." />
+<meta name="theme-color" content="#0b0f14" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="icon" href="./icons/icon-192.png" />
+<link rel="apple-touch-icon" href="./icons/icon-192.png" />
+<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div class="aurora" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <img class="brand-mark" src="./icons/icon-192.png" alt="" width="34" height="34" />
+    <div class="brand-text">
+      <h1>Apex Store</h1>
+      <p id="netState" class="net">checking connection&hellip;</p>
+    </div>
+  </div>
+  <button id="installStore" class="btn primary sm" hidden>Install app</button>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <button class="tab is-on" data-tab="apps" role="tab" aria-selected="true">Apex Apps</button>
+  <button class="tab" data-tab="play" role="tab" aria-selected="false">Google Play</button>
+</nav>
+
+<main>
+  <section id="appsPanel" class="panel" role="tabpanel">
+    <div class="toolbar">
+      <label class="field grow">
+        <span class="sr">Search apps</span>
+        <input id="appSearch" type="search" placeholder="Search the suite &mdash; 22 apps" autocomplete="off" />
+      </label>
+    </div>
+    <div id="appCats" class="chips" role="group" aria-label="Categories"></div>
+    <div id="appGrid" class="grid"></div>
+    <p id="appEmpty" class="empty" hidden>Nothing in the suite matches that search.</p>
+  </section>
+
+  <section id="playPanel" class="panel" hidden role="tabpanel">
+    <form id="playForm" class="toolbar" autocomplete="off">
+      <label class="field grow">
+        <span class="sr">Search Google Play</span>
+        <input id="playQuery" type="search" placeholder="Search Google Play&hellip;" />
+      </label>
+      <button class="btn primary" type="submit">Search</button>
+    </form>
+    <div id="playCats" class="chips" role="group" aria-label="Play categories"></div>
+    <p id="playNote" class="note"></p>
+    <div id="playList" class="list"></div>
+
+    <details class="setup">
+      <summary>Search proxy endpoint</summary>
+      <p class="note">
+        Play has no CORS-friendly API, so searches go through your own Worker
+        (<code>worker/play-proxy.js</code>). Results are cached in IndexedDB, so the last
+        search for each term still works offline.
+      </p>
+      <form id="proxyForm" class="toolbar" autocomplete="off">
+        <label class="field grow">
+          <span class="sr">Worker URL</span>
+          <input id="proxyUrl" type="url" placeholder="https://apex-play-proxy.you.workers.dev" />
+        </label>
+        <button class="btn" type="submit">Save</button>
+      </form>
+      <p id="proxyState" class="note"></p>
+    </details>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>Apex Store &middot; the suite keeps working offline</span>
+  <span id="cacheStamp"></span>
+</footer>
+
+<div id="sheet" class="sheet" hidden>
+  <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <h2 id="sheetTitle">Add to Home Screen</h2>
+    <p id="sheetBody"></p>
+    <pre id="sheetUrl" class="sheet-url"></pre>
+    <div class="sheet-actions">
+      <button id="sheetCopy" class="btn primary">Copy link</button>
+      <button id="sheetClose" class="btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="./store.js"></script>
+<script src="./play.js"></script>
+</body>
+</html>
