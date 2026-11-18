@@ -51,8 +51,8 @@ const APPS = [
     desc: 'A plain money ledger with no bank linking.' },
   { id: 'editor',     name: 'Apex Editor',    cat: 'Productivity', path: '/apps/editor/',     status: 'planned', offline: true,
     desc: 'Code and text editor wired to local files first.' },
-  { id: 'pulse',      name: 'Apex Pulse',     cat: 'System',       path: '/apps/pulse/',      status: 'planned', offline: false,
-    desc: 'Health of every app above, on one page.' },
+  { id: 'pulse',      name: 'Apex Pulse',     cat: 'System',       path: '/apps/pulse/',      status: 'ready',   offline: true,
+    desc: 'Device pulse and keep-alive checks for the URLs you watch.' },
   { id: 'backup',     name: 'Apex Backup',    cat: 'System',       path: '/apps/backup/',     status: 'planned', offline: false,
     desc: 'Scheduled backups of the suite’s data, within the free tier.' },
 ];
