@@ -57,6 +57,9 @@ const STATUS_RANK = { ready: 0, preview: 1, planned: 2 };
 /* ---------- tiny helpers ---------- */
 
 const $ = (id) => document.getElementById(id);
+
+/* Shared ApexOS registry: installed apps, offline caches, cross-app channel. */
+const R = window.ApexRegistry || null;
 const esc = (s) =>
   String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -148,6 +151,63 @@ function addToHome(app) {
   $('sheetCopy').textContent = 'Copy link';
 }
 
+/* ---------- install / uninstall on this device ---------- */
+
+function isInstalled(app) {
+  return Boolean(R && R.isInstalled(app.id));
+}
+
+/* Install = fetch the app's core files into CacheStorage, record it in
+   apex_installed_apps and tell the shell over BroadcastChannel('apex-os-apps'). */
+async function toggleInstall(app, button) {
+  if (!R) {
+    toast('App registry unavailable — reload the store');
+    return;
+  }
+
+  const wasInstalled = R.isInstalled(app.id);
+  if (button) {
+    button.disabled = true;
+    button.textContent = wasInstalled ? 'Removing…' : 'Caching…';
+  }
+
+  try {
+    if (wasInstalled) {
+      await R.uninstall(app.id);
+      toast(app.name + ' uninstalled');
+    } else {
+      const result = await R.install({ id: app.id, name: app.name, url: launchUrl(app), source: 'store' });
+      const report = (result && result.report) || {};
+      if (report.ok) {
+        toast(app.name + ' installed — ' + report.cached + ' files cached for offline');
+      } else {
+        toast(app.name + ' added, but its files could not be cached (needs the bundled deployment)');
+      }
+    }
+  } catch (err) {
+    toast('Could not change ' + app.name);
+  } finally {
+    renderApps();
+    paintCache();
+  }
+}
+
+/* A pinned Play app is a shortcut: no files to cache, it leaves ApexOS. */
+function pinPlayApp(item) {
+  if (!R) {
+    toast('App registry unavailable — reload the store');
+    return;
+  }
+  const title = item.title || item.packageId;
+  R.add({
+    id: 'play-' + item.packageId,
+    name: title,
+    url: 'https://play.google.com/store/apps/details?id=' + encodeURIComponent(item.packageId),
+    source: 'store',
+  });
+  toast(title + ' pinned to ApexOS');
+}
+
 /* ---------- rendering ---------- */
 
 let activeCat = 'All';
@@ -208,6 +268,14 @@ function card(app) {
     : 'Needs a connection for its main function';
   badges.append(status, offline);
 
+  if (isInstalled(app)) {
+    const mine = document.createElement('span');
+    mine.className = 'pill ok';
+    mine.textContent = 'Installed';
+    mine.title = 'On this device, with its own offline cache';
+    badges.append(mine);
+  }
+
   const actions = document.createElement('div');
   actions.className = 'actions';
 
@@ -223,6 +291,17 @@ function card(app) {
     open.href = launchUrl(app);
     open.textContent = 'Open';
     actions.append(open);
+
+    const installed = isInstalled(app);
+    const toggle = document.createElement('button');
+    toggle.className = 'btn';
+    toggle.type = 'button';
+    toggle.textContent = installed ? 'Uninstall' : 'Install';
+    toggle.title = installed
+      ? 'Delete the offline copy of ' + app.name + ' from this device'
+      : 'Cache ' + app.name + ' here and show it on the ApexOS screen';
+    toggle.addEventListener('click', () => toggleInstall(app, toggle));
+    actions.append(toggle);
   }
 
   const home = document.createElement('button');
@@ -278,11 +357,15 @@ async function paintCache() {
   try {
     const names = await caches.keys();
     let entries = 0;
+    let appCaches = 0;
     for (const name of names) {
+      if (name.startsWith('apex-app-')) appCaches += 1;
       if (!name.startsWith('apex-store')) continue;
       entries += (await (await caches.open(name)).keys()).length;
     }
-    stamp.textContent = entries ? entries + ' files cached for offline' : 'not cached yet';
+    stamp.textContent =
+      (entries ? entries + ' files cached for offline' : 'not cached yet') +
+      (appCaches ? ' · ' + appCaches + ' installed app' + (appCaches === 1 ? '' : 's') : '');
   } catch {
     stamp.textContent = '';
   }
@@ -301,9 +384,18 @@ function switchTab(name) {
 }
 
 function boot() {
+  if (R) R.ensureSeeded();
   paintNet();
   renderApps();
   paintCache();
+
+  /* Installs and uninstalls from another surface (ApexOS, Apex Settings). */
+  if (R) {
+    R.onMessage(R.appsChannel, () => {
+      renderApps();
+      paintCache();
+    });
+  }
 
   $('appSearch').addEventListener('input', (e) => {
     query = e.target.value.trim().toLowerCase();
@@ -353,7 +445,7 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-window.ApexStore = { APPS, $, esc, toast, copy, openSheet, closeSheet, installFromPlay, isAndroid, launchUrl, paintCache };
+window.ApexStore = { APPS, $, esc, toast, copy, openSheet, closeSheet, installFromPlay, isAndroid, launchUrl, paintCache, isInstalled, toggleInstall, pinPlayApp };
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', boot);
