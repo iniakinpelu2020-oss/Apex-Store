@@ -1,13 +1,14 @@
 /* Apex Store service worker.
    Relative URLs throughout: the same file works at / and at /apps/store/. */
 
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'apex-store-' + VERSION;
 
 const SHELL = [
   './',
   './index.html',
   './styles.css',
+  './registry.js',
   './store.js',
   './play.js',
   './manifest.json',
