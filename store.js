@@ -2,17 +2,13 @@
    Everything here runs in the tab; the only network use is the opt-in Play proxy. */
 'use strict';
 
-/* ---------- the 25 apps ---------- */
+/* ---------- the catalogued apps ---------- */
 
 const APPS = [
   { id: 'ai',         name: 'Apex AI',        cat: 'AI',           path: '/apps/ai/',         status: 'ready',   offline: false,
     desc: 'Chat, search and artifacts across the suite’s models.' },
   { id: 'router',     name: 'Apex AI Router', cat: 'AI',           path: '/apps/router/',     status: 'planned', offline: false,
     desc: 'One endpoint in front of Groq, Gemini, Mistral and Cloudflare.' },
-  { id: 'automation', name: 'Apex Automation', cat: 'Automation',  path: '/apps/automation/', status: 'preview', offline: false,
-    desc: 'n8n flows and Workers that run the boring half of the suite.' },
-  { id: 'drive',      name: 'Apex Drive',     cat: 'Files',        path: '/apps/drive/',      status: 'preview', offline: false,
-    desc: '10 GB Backblaze B2 drive with presigned uploads.' },
   { id: 'drop',       name: 'Apex Drop',      cat: 'Files',        path: '/apps/drop/',       status: 'planned', offline: false,
     desc: 'Big-file handoff that stays inside one free tier.' },
   { id: 'auth',       name: 'Apex Auth',      cat: 'Security',     path: '/apps/auth/',       status: 'planned', offline: false,
